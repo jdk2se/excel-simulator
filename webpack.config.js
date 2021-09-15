@@ -27,7 +27,7 @@ module.exports = (env, argv) => {
 			}),
 		];
 
-		if (isDev) {
+		if (isDev && false) { // Только для демонстрации подключения линтеров.
 			base.push(new ESLintPlugin());
 		}
 
