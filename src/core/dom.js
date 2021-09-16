@@ -1,11 +1,79 @@
 class Dom {
-	constructor() {
+	constructor(selector) {
+		this.$el = 'string' === typeof selector
+			? document.querySelector(selector)
+			: selector
+		;
+	}
 
+	/**
+	 * Получение/установка содержимого элемента.
+	 * @param {string|null} html элемент
+	 *
+	 * @returns {string|Dom}
+	 */
+	html(html) {
+		if ('string' === typeof html) {
+			this.$el.innerHTML = html;
+
+			return this;
+		}
+
+		return this.$el.outerHTML.trim();
+	}
+
+	/**
+	 * Очистка содержимого элемента.
+	 *
+	 * @returns {Dom}
+	 */
+	clear() {
+		this.html('');
+
+		return this;
+	}
+
+	/**
+	 * Полифил для нативного append.
+	 */
+	append(node) {
+		if (node instanceof Dom) {
+			node = node.$el
+		}
+
+		if (Element.prototype.append) {
+			this.$el.append(node)
+		}
+		else {
+			this.$el.appendChild(node)
+		}
+
+		return this
+	}
+
+	/**
+	 * Добавление прослушивания события.
+	 *
+	 * @param {string} eventType
+	 * @param callback
+	 */
+	on(eventType, callback) {
+		this.$el.addEventListener(eventType, callback);
+	}
+
+	/**
+	 * Удаление слушателя события
+	 *
+	 * @param {string} eventType
+	 * @param callback
+	 */
+	off(eventType, callback) {
+		this.$el.removeEventListener(eventType, callback);
 	}
 }
 
-export function $() {
-	return new Dom();
+export function $(selector) {
+	return new Dom(selector);
 }
 
 /**
@@ -20,5 +88,5 @@ $.create = (tagName, classes = '') => {
 		el.classList.add(classes);
 	}
 
-	return el;
+	return $(el);
 }

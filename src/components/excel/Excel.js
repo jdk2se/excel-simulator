@@ -9,7 +9,7 @@ export class Excel {
 	 * @param {Object} options  Параметры инициализации
 	 */
 	constructor(selector, options) {
-		this.$el = document.querySelector(selector);
+		this.$el        = $(selector);
 		this.components = options.components || [];
 	}
 
@@ -17,25 +17,27 @@ export class Excel {
 	 * Рендеринг.
 	 */
 	render() {
-		this.$el.appendChild(this.getRoot());
+		this.$el.append(this.getRoot());
+		this.components.forEach((component) => component.init());
 	}
 
 	/**
 	 * Создание корневой ноды.
 	 *
-	 * @returns {HTMLDivElement}
+	 * @returns {Dom}
 	 */
 	getRoot() {
-		const $root = $.create('div', 'excel');
+		const $root = $.create('div', 'excel')
 
-		this.components.forEach((Component) => {
-			const $el = $.create('div', Component.className);
+		this.components = this.components.map(Component => {
+			const $el = $.create('div', Component.className)
+			const component = new Component($el)
+			$el.html(component.toHtml())
+			$root.append($el)
 
-			const component = new Component($el);
-			$el.innerHTML = component.toHtml();
-			$root.appendChild($el);
-		});
+			return component;
+		})
 
-		return $root;
+		return $root
 	}
 }
