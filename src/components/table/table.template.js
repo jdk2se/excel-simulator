@@ -34,13 +34,13 @@ export function createTable(rowsCount = 15) {
 
 	rows.push(createRow(letterCols));
 	for (let i = 0; i < rowsCount; i++) {
-		const row = new Array(colsCount)
+		const cells = new Array(colsCount)
 			.fill('')
-			.map(toColumn)
+			.map(toCell)
 			.join('')
 		;
 
-		rows.push(createRow(row));
+		rows.push(createRow(cells, i + 1));
 	}
 
 	return rows.join('');
@@ -51,7 +51,7 @@ export function createTable(rowsCount = 15) {
  *
  * @returns {string}
  */
-function createCell() {
+function toCell() {
 	return `
 		<div class="cell" contenteditable></div>
 	`;
@@ -71,12 +71,15 @@ function toColumn(col = '') {
 /**
  * Создание строки.
  *
+ * @param {string} content Содержимое
+ * @param {int}    index   Индекс строки
+ *
  * @returns {string}
  */
-function createRow(content) {
+function createRow(content, index = 0) {
 	return `
 		<div class="row">
-			<div class="row-info"></div>
+			<div class="row-info">${index ? index : ''}</div>
 			<div class="row-data">${content}</div>
 		</div>
 	`;
