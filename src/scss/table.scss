@@ -13,6 +13,7 @@
 		height:         $row-height;
 
 		&-info {
+			position:        relative;
 			display:         flex;
 			align-items:     center;
 			justify-content: center;
@@ -40,12 +41,13 @@
 
 				&.selected {
 					border:  none;
-					outline: 2px solid #3c74ff;
+					outline: 2px solid $primary-color;
 					z-index: 2;
 				}
 			}
 
 			.column {
+				position:        relative;
 				display:         flex;
 				align-items:     center;
 				justify-content: center;
@@ -57,6 +59,37 @@
 				border-top:      0;
 				border-left:     0;
 			}
+		}
+	}
+
+	.col-resize, .row-resize {
+		position:   absolute;
+		bottom:     0;
+		background: $primary-color;
+		opacity:    0;
+		right:      0;
+
+		&:hover {
+			opacity: 1;
+		}
+	}
+
+	.col-resize {
+		top:        0;
+		width:      3px;
+
+		&:hover {
+			cursor:  col-resize;
+		}
+	}
+
+	.row-resize {
+		left:       0;
+		height:     4px;
+		background: $primary-color;
+
+		&:hover {
+			cursor:  row-resize;
 		}
 	}
 }

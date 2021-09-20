@@ -52,6 +52,34 @@ class Dom {
 	}
 
 	/**
+	 * Получение ближайшего предка
+	 *
+	 * @param selector
+	 *
+	 * @return Dom
+	 */
+	closest(selector) {
+		return $(this.$el.closest(selector));
+	}
+
+	/**
+	 * Получение набора координат элемента
+	 *
+	 * @returns {DOMRect}
+	 */
+	getCoords() {
+		return this.$el.getBoundingClientRect();
+	}
+
+	/**
+	 *
+	 * @returns {DOMStringMap}
+	 */
+	get data () {
+		return this.$el.dataset;
+	}
+
+	/**
 	 * Добавление прослушивания события.
 	 *
 	 * @param {string} eventType

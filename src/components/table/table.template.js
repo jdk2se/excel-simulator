@@ -51,9 +51,9 @@ export function createTable(rowsCount = 15) {
  *
  * @returns {string}
  */
-function toCell() {
+function toCell(_, col) {
 	return `
-		<div class="cell" contenteditable></div>
+		<div class="cell" contenteditable data-col="${col}"></div>
 	`;
 }
 
@@ -62,9 +62,12 @@ function toCell() {
  *
  * @returns {string}
  */
-function toColumn(col = '') {
+function toColumn(col = '', index) {
 	return `
-		<div class="column">${col}</div>
+		<div class="column" data-type="resizable" data-col="${index}">
+			${col}
+			<div class="col-resize" data-resize="col"></div>
+		</div>
 	`;
 }
 
@@ -77,9 +80,13 @@ function toColumn(col = '') {
  * @returns {string}
  */
 function createRow(content, index = 0) {
+	const resize = index ? '<div class="row-resize" data-resize="row"></div>' : '';
 	return `
 		<div class="row">
-			<div class="row-info">${index ? index : ''}</div>
+			<div class="row-info">
+				${index ? index : ''}
+				${resize}
+			</div>
 			<div class="row-data">${content}</div>
 		</div>
 	`;
