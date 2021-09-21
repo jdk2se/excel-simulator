@@ -72,6 +72,24 @@ class Dom {
 	}
 
 	/**
+	 * Найти все элементы
+	 */
+	findAll(selector) {
+		return this.$el.querySelectorAll(selector);
+	}
+
+	/**
+	 * Стилизация элемента
+	 *
+	 * @param {Object} styles {property: value}
+	 */
+	css(styles = {}) {
+		Object.keys(styles).forEach((property) => {
+			this.$el.style[property] = styles[property];
+		});
+	}
+
+	/**
 	 *
 	 * @returns {DOMStringMap}
 	 */

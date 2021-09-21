@@ -1,6 +1,8 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {createTable} from '@/components/table/table.template';
 import {$} from '../../core/dom';
+import {resizeHandler} from '@/components/table/table.resize';
+import {shouldResize} from '@/components/table/table.funtions';
 
 /**
  * Компонент таблицы.
@@ -18,26 +20,14 @@ export class Table extends ExcelComponent {
 		return createTable(25);
 	}
 
+	/**
+	 * Ресайз колонок
+	 *
+	 * @param event
+	 */
 	onMousedown(event) {
-		if (event.target.dataset.resize) {
-			const resizer = $(event.target);
-			const parent  = resizer.closest('[data-type="resizable"]');
-			const coords  = parent.getCoords();
-			let   value   =  0;
-
-			document.onmousemove = (e) => {
-				const delta = Math.floor(e.pageX - coords.right);
-				value = coords.width + delta;
-				parent.$el.style.width = value + 'px';
-			}
-
-			document.onmouseup =  () => {
-				document.querySelectorAll(`[data-col="${parent.data.col}"]`)
-					.forEach((el) => {
-						el.style.width = value + 'px';
-					});
-				document.onmousemove = null;
-			}
+		if (shouldResize(event)) {
+			resizeHandler(this.$root, event);
 		}
 	}
 }
