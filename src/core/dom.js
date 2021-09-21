@@ -52,6 +52,52 @@ class Dom {
 	}
 
 	/**
+	 * Получение ближайшего предка
+	 *
+	 * @param selector
+	 *
+	 * @return Dom
+	 */
+	closest(selector) {
+		return $(this.$el.closest(selector));
+	}
+
+	/**
+	 * Получение набора координат элемента
+	 *
+	 * @returns {DOMRect}
+	 */
+	getCoords() {
+		return this.$el.getBoundingClientRect();
+	}
+
+	/**
+	 * Найти все элементы
+	 */
+	findAll(selector) {
+		return this.$el.querySelectorAll(selector);
+	}
+
+	/**
+	 * Стилизация элемента
+	 *
+	 * @param {Object} styles {property: value}
+	 */
+	css(styles = {}) {
+		Object.keys(styles).forEach((property) => {
+			this.$el.style[property] = styles[property];
+		});
+	}
+
+	/**
+	 *
+	 * @returns {DOMStringMap}
+	 */
+	get data () {
+		return this.$el.dataset;
+	}
+
+	/**
 	 * Добавление прослушивания события.
 	 *
 	 * @param {string} eventType
