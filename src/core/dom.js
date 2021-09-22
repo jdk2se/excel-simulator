@@ -79,6 +79,33 @@ class Dom {
 	}
 
 	/**
+	 * Найти один элемент
+	 *
+	 * @param {string} selector
+	 */
+	find(selector) {
+		return $(this.$el.querySelector(selector));
+	}
+
+	/**
+	 * Добавление класса
+	 *
+	 * @param {string} className
+	 */
+	addClass(className) {
+		this.$el.classList.add(className);
+	}
+
+	/**
+	 * Удаление класса
+	 *
+	 * @param {string} className
+	 */
+	removeClass(className) {
+		this.$el.classList.remove(className);
+	}
+
+	/**
 	 * Стилизация элемента
 	 *
 	 * @param {Object} styles {property: value}

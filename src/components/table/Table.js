@@ -1,8 +1,8 @@
 import {ExcelComponent} from '@core/ExcelComponent';
 import {createTable} from '@/components/table/table.template';
-import {$} from '../../core/dom';
 import {resizeHandler} from '@/components/table/table.resize';
 import {shouldResize} from '@/components/table/table.funtions';
+import {TableSelection} from './TableSelection';
 
 /**
  * Компонент таблицы.
@@ -18,6 +18,17 @@ export class Table extends ExcelComponent {
 
 	toHtml() {
 		return createTable(25);
+	}
+
+	init() {
+		super.init();
+		this.selection = new TableSelection();
+		const cell = this.$root.find('[data-id="0:0"]');
+		this.selection.select(cell);
+	}
+
+	prepare() {
+
 	}
 
 	/**
