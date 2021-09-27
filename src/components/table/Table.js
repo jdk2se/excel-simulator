@@ -12,9 +12,11 @@ import { range } from '@core/utils';
 export class Table extends ExcelComponent {
 	static className = 'excel__table';
 
-	constructor($root) {
+	constructor($root, options) {
 		super($root, {
-			listeners: ['mousedown', 'keydown'],
+			name: 'Table',
+			listeners: ['mousedown', 'keydown', 'input'],
+			...options
 		});
 	}
 
@@ -24,9 +26,19 @@ export class Table extends ExcelComponent {
 
 	init() {
 		super.init();
+		const cell     = this.$root.find('[data-id="0:0"]');
 		this.selection = new TableSelection();
-		const cell = this.$root.find('[data-id="0:0"]');
 		this.selection.select(cell);
+
+		this.$emit('table:select', cell);
+
+		this.$on('formula:input', (text) => {
+			this.selection.current.text(text);
+		});
+
+		this.$on('formula:entered', () => {
+			this.selection.current.focus();
+		});
 	}
 
 	prepare() {}
@@ -90,8 +102,16 @@ export class Table extends ExcelComponent {
 
 			const el = this.$root.find(`[data-id="${next.row}:${next.col}"]`);
 			this.selection.select(el);
+			this.$emit('table:select', el);
 		}
 	}
+
+	/**
+	 * Редактирвоание текста в ячейке.
+	 *
+	 * @param event
+	 */
+	onInput(event) {
+		this.$emit('table:input', $(event.target));
+	}
 }
-
-

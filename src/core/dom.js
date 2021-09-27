@@ -176,6 +176,25 @@ class Dom {
 		this.$el.focus();
 		return this;
 	}
+
+	/**
+	 * Добавление текста в эл-т.
+	 *
+	 * @param text
+	 */
+	text(text) {
+		if ('string' === typeof text) {
+			this.$el.textContent = text;
+			return this;
+		}
+		else {
+			if ('input' === this.$el.tagName.toLowerCase()) {
+				return this.$el.value.trim();
+			}
+
+			return this.$el.textContent.trim();
+		}
+	}
 }
 
 /**
