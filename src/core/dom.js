@@ -1,3 +1,7 @@
+export function $(selector) {
+	return new Dom(selector);
+}
+
 class Dom {
 	constructor(selector) {
 		this.$el = 'string' === typeof selector
@@ -79,6 +83,33 @@ class Dom {
 	}
 
 	/**
+	 * Найти один элемент
+	 *
+	 * @param {string} selector
+	 */
+	find(selector) {
+		return $(this.$el.querySelector(selector));
+	}
+
+	/**
+	 * Добавление класса
+	 *
+	 * @param {string} className
+	 */
+	addClass(className) {
+		this.$el.classList.add(className);
+	}
+
+	/**
+	 * Удаление класса
+	 *
+	 * @param {string} className
+	 */
+	removeClass(className) {
+		this.$el.classList.remove(className);
+	}
+
+	/**
 	 * Стилизация элемента
 	 *
 	 * @param {Object} styles {property: value}
@@ -108,7 +139,7 @@ class Dom {
 	}
 
 	/**
-	 * Удаление слушателя события
+	 * Удаление слушателя события.
 	 *
 	 * @param {string} eventType
 	 * @param callback
@@ -116,10 +147,54 @@ class Dom {
 	off(eventType, callback) {
 		this.$el.removeEventListener(eventType, callback);
 	}
-}
 
-export function $(selector) {
-	return new Dom(selector);
+	/**
+	 * Получение идентификатора ячейки.
+	 *
+	 * @param {boolean} parse Необходимо ли парсить id
+	 *
+	 * @returns {string}
+	 */
+	getId(parse) {
+		if (!parse) {
+			return this.data.id;
+		}
+
+		const parsed = this.data.id.split(':');
+		return {
+			row: Number(parsed[0]),
+			col: Number(parsed[1]),
+		};
+	}
+
+	/**
+	 * Добавление фокуса элементу.
+	 *
+	 * @returns {Dom}
+	 */
+	focus() {
+		this.$el.focus();
+		return this;
+	}
+
+	/**
+	 * Добавление текста в эл-т.
+	 *
+	 * @param text
+	 */
+	text(text) {
+		if ('string' === typeof text) {
+			this.$el.textContent = text;
+			return this;
+		}
+		else {
+			if ('input' === this.$el.tagName.toLowerCase()) {
+				return this.$el.value.trim();
+			}
+
+			return this.$el.textContent.trim();
+		}
+	}
 }
 
 /**
