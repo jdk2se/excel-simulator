@@ -28,9 +28,7 @@ export class Table extends ExcelComponent {
 		super.init();
 		const cell     = this.$root.find('[data-id="0:0"]');
 		this.selection = new TableSelection();
-		this.selection.select(cell);
-
-		this.$emit('table:select', cell);
+		this.selectCell(cell);
 
 		this.$on('formula:input', (text) => {
 			this.selection.current.text(text);
@@ -42,6 +40,17 @@ export class Table extends ExcelComponent {
 	}
 
 	prepare() {}
+
+	/**
+	 * Выделение ячейки и вызов необходимых экшенов.
+	 *
+	 * @param cell
+	 */
+	selectCell(cell) {
+		this.selection.select(cell);
+		this.$emit('table:select', cell);
+		this.$dispatch({type: 'Test'});
+	}
 
 	/**
 	 * Ресайз колонок
@@ -74,7 +83,7 @@ export class Table extends ExcelComponent {
 			this.selection.selectGroup(cells);
 		}
 		else if (support.isCell(event)) {
-			this.selection.select(target);
+			this.selectCell(target);
 		}
 	}
 
